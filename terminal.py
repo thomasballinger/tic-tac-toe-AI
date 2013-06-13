@@ -33,9 +33,10 @@ class Board:
             print upper + row_string
         print '\n'
 
-
-
 myBoard = Board(blank_board)
-myBoard.printBoard()
-myBoard.placeChar(0,0,'O')
-myBoard.printBoard()
+
+while (True):
+    myBoard.printBoard()
+    input_var = input("Enter [row, col, char]: ")
+    myBoard.placeChar(input_var[0],input_var[1],input_var[2])
+
