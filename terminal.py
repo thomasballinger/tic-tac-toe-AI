@@ -5,8 +5,9 @@ blank_board = [
         ]
 
 class Board:
-    def __init__(self, grid):
+    def __init__(self, grid=blank_board):
         self.grid = grid
+        self.turn = 'X'
     def place_char (self, row, col, char):
         if (not self.valid_character(char)):
             print 'Invalid character. Please enter \'X\' or \'O\''
@@ -14,7 +15,11 @@ class Board:
         if self.grid[row][col] != '_' and self.grid[row][col] != ' ':
             print 'Invalid move. A player has already marked that spot'
             return 
-        else: self.grid[row][col] = char
+        else: 
+            self.grid[row][col] = char
+            if self.turn == 'X':
+                self.turn = 'O'
+            else: self.turn = 'X'
     def print_board (self):
         upper = '   |   |   \n'
         for row in range(3):
@@ -65,17 +70,25 @@ class Board:
     def valid_character(self, char):
         return (char == 'O' or char == 'X')
 
-my_board = Board(blank_board)
-turn = 'X'
+    def unplayed_spots(self):
+        unplayed_spots = []
+        for row in range(2):
+            for col in range(2):
+                # is there a way to use list comprehension for this?
+                if not self.valid_character(self.grid[row][col]):
+                    unplayed_spots.append((row,col))
+        return unplayed_spots
 
-while (True):
-    my_board.print_board()
-    input_var = input(turn + " Enter [row, col]: ")
-    my_board.place_char(input_var[0],input_var[1],turn)
-    if my_board.check_victory():
-        my_board.print_board()
-        print "player " + turn + " has won!"
-        break
-    if turn == 'X': 
-        turn = 'O'
-    else: turn = 'X'
+my_board = Board()
+
+def play_game(num_humans):
+    if num_humans == '2':
+        while (True):
+            turn = my_board.turn
+            my_board.print_board()
+            input_var = input(turn + " Enter [row, col]: ")
+            my_board.place_char(input_var[0],input_var[1],turn)
+            if my_board.check_victory():
+                my_board.print_board()
+                print "player " + turn + " has won!"
+                break
