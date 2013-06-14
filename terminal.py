@@ -10,24 +10,15 @@ other_board = [
             [' ',' ',' '] 
         ]
 
-class Dummy:
-    def __init__(self, grid = None):
-        if grid is None:
-            self.grid = [list(row) for row in blank_board]
-        else: self.grid = grid
-        #self.grid = list(grid) if grid else list(blank_board)
-    def place_char (self, row, col, char):
-        self.grid[row][col] = char
-
 class Board:
     def __init__(self, grid = None):
         if grid is None:
             self.grid = [list(row) for row in blank_board]
             print 'self.grid = ',id(self.grid)
             print 'blank_board = ',id(blank_board)
-        else: self.grid = grid
-        #self.grid = grid if grid else blank_board[:]
-        self.turn = 'X'
+        else: self.grid = [list(row) for row in grid]
+        self.turns_left = len(self.unplayed_spots())
+        self.turn = 'X' if self.turns_left%2 == 0 else 'O'
     def place_char (self, row, col, char):
         if (not self.valid_character(char)):
             print 'Invalid character. Please enter \'X\' or \'O\''
@@ -37,9 +28,8 @@ class Board:
             return 
         else: 
             self.grid[row][col] = char
-            if self.turn == 'X':
-                self.turn = 'O'
-            else: self.turn = 'X'
+            self.turn = 'X' if self.turns_left%2 == 0 else 'O'
+            self.turns_left -= 1
     def print_board (self):
         upper = '   |   |   \n'
         for row in range(3):
@@ -61,11 +51,9 @@ class Board:
         # check for 3 in a single row
         for row in self.grid:
             if self.all_same(row):
-                print row
                 return True
         for col in range(3):
             if self.all_same(self.get_column(col)):
-                print self.get_column(col)
                 return True
         diags = self.get_diags()
         if self.all_same(diags[0]) or self.all_same(diags[1]):
