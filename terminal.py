@@ -34,49 +34,48 @@ class Board:
         print '\n'
     def check_victory (self):
         # check for 3 in a single row
-        for row in range(3):
-            char = self.grid[row][0]
-            if self.valid_character(char):
-                print char
-                for col in range(3):
-                    next_char = self.grid[row][col]
-                    if (char != next_char):
-                        return False
-        # check for 3 in a single column
+        for row in self.grid:
+            if self.all_same(row):
+                print row
+                return True
         for col in range(3):
-            char = self.grid[0][col]
-            if self.valid_character(char):
-                for row in range(3):
-                    next_char = self.grid[row][col]
-                    if (char != next_char):
-                        return False
-        # check diagonals
-        char = self.grid[0][0]
-        if self.valid_character(char):
-            for diag in range (3):
-                next_char = self.grid[diag][diag]
-                if (char != next_char):
-                    return False
-        char = self.grid[2][0]
-        if self.valid_character(char):
-            for diag in range (3):
-                next_char = self.grid[2-diag][diag]
-                if (char != next_char):
-                    return False
-        return True
-        # as currently written return true for empty board or any 
-        # board with all invalid playable characters
-
+            if self.all_same(self.get_column(col)):
+                print self.get_column(col)
+                return True
+        diags = self.get_diags()
+        if self.all_same(diags[0]) or self.all_same(diags[1]):
+            return True
+        return False
+    def get_column(self, number):
+        col = []
+        for row in self.grid:
+            col.append(row[number])
+        return col
+    def get_diags(self):
+        diag1 = []
+        diag2 = []
+        for ind in range(3):
+            diag1.append(self.grid[ind][ind])
+            diag2.append(self.grid[2-ind][ind])
+        return (diag1,diag2)
+    def all_same(self, items):
+        if items[0] == '_' or items[0] == ' ':
+            return False
+        return all(x==items[0] for x in items)
     def valid_character(self, char):
         return (char == 'O' or char == 'X')
 
-myBoard = Board(blank_board)
+my_board = Board(blank_board)
+turn = 'X'
 
 while (True):
-    input_var = input("Enter [row, col, char]: ")
-    myBoard.place_char(input_var[0],input_var[1],input_var[2])
-    myBoard.print_board()
-    if (myBoard.check_victory):
-        print "The character playing " + input_var[2] + " has won!"
+    my_board.print_board()
+    input_var = input(turn + " Enter [row, col]: ")
+    my_board.place_char(input_var[0],input_var[1],turn)
+    if my_board.check_victory():
+        my_board.print_board()
+        print "player " + turn + " has won!"
         break
-
+    if turn == 'X': 
+        turn = 'O'
+    else: turn = 'X'
