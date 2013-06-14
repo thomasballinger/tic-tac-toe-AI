@@ -39,21 +39,45 @@ def final_boards(current_board):
 			fin_boards = fin_boards + final_boards(board)
 	return fin_boards
 
+def calc_util(end_states, player):
+	outcomes = [end[1] for end in end_states]
+	util = 0
+	for result in outcomes:
+		if result == 'tie':
+			pass
+		elif result == player:
+			util += 1
+		else: 
+			util -= 1
+	return util
 
-one_left_board = [
-            ['X','O','O'], 
+def best_move(board):
+	poss_boards = possible_boards(board)
+	board_utils = []
+	for board in poss_boards:
+		ends = final_boards(board)
+		util = calc_util(ends, board.turn)
+		board_utils.append((board,util))
+	return best_move_helper(board_utils)
+
+def best_move_helper(pairs):
+	best = pairs[0][0]
+	for pair in pairs:
+		if pair[1] > best[1]:
+			best = pair[0]
+	return best
+
+other_board = [
             ['O','X','O'], 
-            ['_','_','_'] 
-        ]
+            ['X','O','O'], 
+            ['X','O','X'] 
+           ]
 
-start_board = terminal.Board()
-
+start_board = terminal.Board(other_board)
 
 ends = final_boards(start_board)
 
-for i in ends:
-	i[0].print_board()
-	print i[1]
+print calc_util(ends, 'O')
 
 # poss_boards = possible_boards(start_board)
 

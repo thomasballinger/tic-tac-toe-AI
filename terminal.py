@@ -5,17 +5,15 @@ blank_board = [
         ]
 
 other_board = [
-            ['_','_','_'], 
-            ['_','X','_'], 
-            [' ',' ',' '] 
+            ['O','X','O'], 
+            ['X','O','O'], 
+            ['X','O','X'] 
         ]
 
 class Board:
     def __init__(self, grid = None):
         if grid is None:
             self.grid = [list(row) for row in blank_board]
-            print 'self.grid = ',id(self.grid)
-            print 'blank_board = ',id(blank_board)
         else: self.grid = [list(row) for row in grid]
         self.turns_left = len(self.unplayed_spots())
         self.turn = 'X' if self.turns_left%2 == 0 else 'O'
@@ -86,8 +84,6 @@ class Board:
                 if not self.valid_character(self.grid[row][col]):
                     unplayed_spots.append((row,col))
         return unplayed_spots
-
-# my_board = Board()
 
 
 # def play_game(num_humans):
