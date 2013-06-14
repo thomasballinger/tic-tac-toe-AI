@@ -17,7 +17,7 @@ class Board:
         else: self.grid = [list(row) for row in grid]
         self.turns_left = len(self.unplayed_spots())
         self.turn = 'X' if self.turns_left%2 == 0 else 'O'
-    def place_char (self, row, col, char):
+    def place_char (self, row, col):
         if (not self.valid_character(char)):
             print 'Invalid character. Please enter \'X\' or \'O\''
             return
@@ -25,7 +25,7 @@ class Board:
             print 'Invalid move. A player has already marked that spot'
             return 
         else: 
-            self.grid[row][col] = char
+            self.grid[row][col] = self.turn
             self.turn = 'X' if self.turns_left%2 == 0 else 'O'
             self.turns_left -= 1
     def print_board (self):
@@ -84,6 +84,13 @@ class Board:
                 if not self.valid_character(self.grid[row][col]):
                     unplayed_spots.append((row,col))
         return unplayed_spots
+
+    def find_diff(self, next_board):
+        next_grid = [list(row) for row in next_board.grid]
+        for row in range(3):
+            for col in range(3):
+                if next_grid[row][col] != self.grid[row][col]:
+                    return (row,col)
 
 
 # def play_game(num_humans):
