@@ -16,11 +16,8 @@ class Board:
             self.grid = [list(row) for row in blank_board]
         else: self.grid = [list(row) for row in grid]
         self.turns_left = len(self.unplayed_spots())
-        self.turn = 'X' if self.turns_left%2 == 0 else 'O'
+        self.turn = 'X' if self.turns_left%2 == 1 else 'O'
     def place_char (self, row, col):
-        if (not self.valid_character(char)):
-            print 'Invalid character. Please enter \'X\' or \'O\''
-            return
         if self.grid[row][col] != '_' and self.grid[row][col] != ' ':
             print 'Invalid move. A player has already marked that spot'
             return 
@@ -92,18 +89,19 @@ class Board:
                 if next_grid[row][col] != self.grid[row][col]:
                     return (row,col)
 
+my_board = Board()
 
-# def play_game(num_humans):
-#     if num_humans == '2':
-#         while (True):
-#             turn = my_board.turn
-#             my_board.print_board()
-#             input_var = input(turn + " Enter [row, col]: ")
-#             my_board.place_char(input_var[0],input_var[1],turn)
-#             if my_board.check_victory():
-#                 my_board.print_board()
-#                 print "player " + turn + " has won!"
-#                 break
+def play_game(num_humans):
+    if num_humans == '2':
+        while (True):
+            turn = my_board.turn
+            my_board.print_board()
+            input_var = input(turn + " Enter [row, col]: ")
+            my_board.place_char(input_var[0],input_var[1])
+            if my_board.check_victory():
+                my_board.print_board()
+                print "player " + turn + " has won!"
+                break
 
-# play_game('2')
+play_game('2')
 
