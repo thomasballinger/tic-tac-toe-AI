@@ -4,18 +4,31 @@ blank_board = [
             [' ',' ',' '] 
         ]
 
-blank_board2 = [
+other_board = [
             ['_','_','_'], 
-            ['_','_','_'], 
+            ['_','X','_'], 
             [' ',' ',' '] 
         ]
 
+class Dummy:
+    def __init__(self, grid = None):
+        if grid is None:
+            self.grid = [list(row) for row in blank_board]
+        else: self.grid = grid
+        #self.grid = list(grid) if grid else list(blank_board)
+    def place_char (self, row, col, char):
+        self.grid[row][col] = char
+
 class Board:
-    def __init__(self, g=blank_board):
-        self.grid = g
+    def __init__(self, grid = None):
+        if grid is None:
+            self.grid = [list(row) for row in blank_board]
+            print 'self.grid = ',id(self.grid)
+            print 'blank_board = ',id(blank_board)
+        else: self.grid = grid
+        #self.grid = grid if grid else blank_board[:]
         self.turn = 'X'
     def place_char (self, row, col, char):
-        print "begin ", blank_board
         if (not self.valid_character(char)):
             print 'Invalid character. Please enter \'X\' or \'O\''
             return
@@ -24,11 +37,9 @@ class Board:
             return 
         else: 
             self.grid[row][col] = char
-            print "middle ", blank_board
             if self.turn == 'X':
                 self.turn = 'O'
             else: self.turn = 'X'
-        print "end ", blank_board
     def print_board (self):
         upper = '   |   |   \n'
         for row in range(3):
@@ -87,22 +98,6 @@ class Board:
                 if not self.valid_character(self.grid[row][col]):
                     unplayed_spots.append((row,col))
         return unplayed_spots
-
-
-print blank_board
-new_board = Board(blank_board)
-print blank_board
-new_board.place_char(0,0,'O')
-print blank_board
-new_board.print_board()
-
-print blank_board
-
-new_board2 = Board(blank_board2)
-print blank_board2
-new_board2.print_board()
-print blank_board2
-
 
 # my_board = Board()
 
