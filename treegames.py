@@ -58,7 +58,9 @@ def best_move(board):
 		ends = final_boards(board)
 		util = calc_util(ends, board.turn)
 		board_utils.append((board,util))
-	return best_move_helper(board_utils)
+	best_next = best_move_helper(board_utils)
+	row, col = best_next.find_diff(board)
+	return (row,col)
 
 def best_move_helper(pairs):
 	best = pairs[0][0]
@@ -66,6 +68,7 @@ def best_move_helper(pairs):
 		if pair[1] > best[1]:
 			best = pair[0]
 	return best
+
 
 other_board = [
             ['O','X','O'], 
