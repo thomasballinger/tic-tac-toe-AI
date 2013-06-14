@@ -4,11 +4,18 @@ blank_board = [
             [' ',' ',' '] 
         ]
 
+blank_board2 = [
+            ['_','_','_'], 
+            ['_','_','_'], 
+            [' ',' ',' '] 
+        ]
+
 class Board:
-    def __init__(self, grid=blank_board):
-        self.grid = grid
+    def __init__(self, g=blank_board):
+        self.grid = g
         self.turn = 'X'
     def place_char (self, row, col, char):
+        print "begin ", blank_board
         if (not self.valid_character(char)):
             print 'Invalid character. Please enter \'X\' or \'O\''
             return
@@ -17,9 +24,11 @@ class Board:
             return 
         else: 
             self.grid[row][col] = char
+            print "middle ", blank_board
             if self.turn == 'X':
                 self.turn = 'O'
             else: self.turn = 'X'
+        print "end ", blank_board
     def print_board (self):
         upper = '   |   |   \n'
         for row in range(3):
@@ -72,23 +81,43 @@ class Board:
 
     def unplayed_spots(self):
         unplayed_spots = []
-        for row in range(2):
-            for col in range(2):
+        for row in range(3):
+            for col in range(3):
                 # is there a way to use list comprehension for this?
                 if not self.valid_character(self.grid[row][col]):
                     unplayed_spots.append((row,col))
         return unplayed_spots
 
-my_board = Board()
 
-def play_game(num_humans):
-    if num_humans == '2':
-        while (True):
-            turn = my_board.turn
-            my_board.print_board()
-            input_var = input(turn + " Enter [row, col]: ")
-            my_board.place_char(input_var[0],input_var[1],turn)
-            if my_board.check_victory():
-                my_board.print_board()
-                print "player " + turn + " has won!"
-                break
+print blank_board
+new_board = Board(blank_board)
+print blank_board
+new_board.place_char(0,0,'O')
+print blank_board
+new_board.print_board()
+
+print blank_board
+
+new_board2 = Board(blank_board2)
+print blank_board2
+new_board2.print_board()
+print blank_board2
+
+
+# my_board = Board()
+
+
+# def play_game(num_humans):
+#     if num_humans == '2':
+#         while (True):
+#             turn = my_board.turn
+#             my_board.print_board()
+#             input_var = input(turn + " Enter [row, col]: ")
+#             my_board.place_char(input_var[0],input_var[1],turn)
+#             if my_board.check_victory():
+#                 my_board.print_board()
+#                 print "player " + turn + " has won!"
+#                 break
+
+# play_game('2')
+
