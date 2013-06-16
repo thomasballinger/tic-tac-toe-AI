@@ -11,13 +11,13 @@ other_board = [
         ]
 
 class Board:
-    def __init__(self, grid = None):
+    def __init__(self, grid=None):
         if grid is None:
             self.grid = [list(row) for row in blank_board]
         else: self.grid = [list(row) for row in grid]
         self.turns_left = len(self.unplayed_spots())
         self.turn = 'X' if self.turns_left%2 == 1 else 'O'
-    def place_char (self, row, col):
+    def place_char(self, row, col):
         if self.grid[row][col] != '_' and self.grid[row][col] != ' ':
             print 'Invalid move. A player has already marked that spot'
             return
@@ -25,7 +25,7 @@ class Board:
             self.grid[row][col] = self.turn
             self.turn = 'X' if self.turns_left%2 == 0 else 'O'
             self.turns_left -= 1
-    def print_board (self):
+    def print_board(self):
         upper = '   |   |   \n'
         for row in range(3):
             row_string = ''
@@ -42,7 +42,7 @@ class Board:
                 row_string += patch
             print upper + row_string
         print '\n'
-    def check_victory (self):
+    def check_victory(self):
         # check for 3 in a single row
         for row in self.grid:
             if self.all_same(row):
