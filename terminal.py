@@ -21,7 +21,6 @@ class Board:
     def place_char(self, row, col):
         if self.grid[row][col] != '_' and self.grid[row][col] != ' ':
             print 'Invalid move. A player has already marked that spot'
-            return
         else:
             self.grid[row][col] = self.turn
             self.turn = 'X' if self.turns_left%2 == 0 else 'O'
