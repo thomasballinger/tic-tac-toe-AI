@@ -102,6 +102,6 @@ def play_game(num_humans):
                 my_board.print_board()
                 print "player " + turn + " has won!"
                 break
-
-play_game('2')
+if __name__ == '__main__':
+    play_game('2')
 
