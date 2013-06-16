@@ -24,18 +24,10 @@ class Board:
     def print_board(self):
         upper = '   |   |   \n'
         for i, row in enumerate(self.grid):
-            row_string = ''
-            if i == 2:
-                row_ground = ' '
-            else:
-                row_ground = '_'
-            for j, char in enumerate(row):
-                if j == 2:
-                    col_close = row_ground
-                else:
-                    col_close = row_ground + "|"
-                patch = row_ground + char + col_close
-                row_string += patch
+            row_ground = ' ' if i == 2 else '_'
+            row_string = (row_ground + (row_ground+'|'+row_ground).join(
+                          row_ground if c in [' ', '_'] else c for c in row) +
+                          row_ground)
             print upper + row_string
         print '\n'
     def check_victory(self):
