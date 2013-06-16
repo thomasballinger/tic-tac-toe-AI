@@ -66,8 +66,8 @@ def play_game(num_humans):
         while (True):
             turn = my_board.turn
             print my_board
-            input_var = input(turn + " Enter [row, col]: ")
-            my_board.place_char(input_var[0],input_var[1])
+            input_var = raw_input(turn + " Enter [row, col]: ")
+            my_board.place_char(*[int(x.strip()) for x in input_var.split(',')])
             if my_board.check_victory():
                 print my_board
                 print "player " + turn + " has won!"
