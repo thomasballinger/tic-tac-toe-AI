@@ -77,7 +77,7 @@ class Board:
 my_board = Board()
 
 def play_game(num_humans):
-    if num_humans == '2':
+    if num_humans == 2:
         while (True):
             turn = my_board.turn
             my_board.print_board()
@@ -88,5 +88,5 @@ def play_game(num_humans):
                 print "player " + turn + " has won!"
                 break
 if __name__ == '__main__':
-    play_game('2')
+    play_game(2)
 
