@@ -14,7 +14,8 @@ class Board:
     def __init__(self, grid=None):
         if grid is None:
             self.grid = [list(row) for row in blank_board]
-        else: self.grid = [list(row) for row in grid]
+        else:
+            self.grid = [list(row) for row in grid]
         self.turns_left = len(self.unplayed_spots())
         self.turn = 'X' if self.turns_left%2 == 1 else 'O'
     def place_char(self, row, col):
