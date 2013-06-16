@@ -3,8 +3,8 @@ import itertools
 BLANK_BOARD = ['   ',
                '   ',
                '   ']
-def valid_character(char):
-    return char in ['O', 'X']
+PLAYER_SIGILS = ['O', 'X']
+
 def all_same_nonspace(items):
     if items[0] == ' ':
         return False
@@ -22,7 +22,7 @@ class Board:
         else:
             self.rows[row][col] = self.turn
     turns_left = property(lambda self: len(self.unplayed_spots))
-    turn = property(lambda self: 'X' if self.turns_left % 2 == 1 else 'O')
+    turn = property(lambda self: PLAYER_SIGILS[self.turns_left % 2])
     def __str__(self):
         template = (
                 '     |     |     \n'
@@ -51,7 +51,7 @@ class Board:
     def unplayed_spots(self):
         return [(r, c)
                 for r in range(3) for c in range(3)
-                if valid_character(self.rows[r][c])]
+                if self.rows[r][c] in PLAYER_SIGILS]
 
     def find_diff(self, next_board):
         return [(r, c)
