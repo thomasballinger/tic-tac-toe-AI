@@ -16,13 +16,21 @@ class Board:
             self.rows = [list(row) for row in BLANK_BOARD]
         else:
             self.rows = [list(row) for row in grid]
-    def place_char(self, row, col):
-        if self.rows[row][col] != ' ':
-            print 'Invalid move. A player has already marked that spot'
-        else:
-            self.rows[row][col] = self.turn
+
     turns_left = property(lambda self: len(self.unplayed_spots))
     turn = property(lambda self: PLAYER_SIGILS[self.turns_left % 2])
+    @property
+    def columns(self):
+        return zip(*self.rows)
+    @property
+    def diags(self):
+        return zip(*[(row[i], row[2-i]) for i, row in enumerate(self.rows)])
+    @property
+    def unplayed_spots(self):
+        return [(r, c)
+                for r in range(3) for c in range(3)
+                if self.rows[r][c] in PLAYER_SIGILS]
+
     def __str__(self):
         template = (
                 '     |     |     \n'
@@ -37,29 +45,22 @@ class Board:
                 '  {}  |  {}  |  {}  \n'
                 '     |     |     \n')
         return template.format(*[c for row in self.rows for c in row])
+
     def check_victory(self):
         return any(all_same_nonspace(comb)
-                for comb in itertools.chain(self.rows, self.columns, self.diags))
-    @property
-    def columns(self):
-        return zip(*self.rows)
-    @property
-    def diags(self):
-        return zip(*[(row[i], row[2-i]) for i, row in enumerate(self.rows)])
+                   for comb in itertools.chain(self.rows, self.columns, self.diags))
 
-    @property
-    def unplayed_spots(self):
-        return [(r, c)
-                for r in range(3) for c in range(3)
-                if self.rows[r][c] in PLAYER_SIGILS]
+    def place_char(self, row, col):
+        if self.rows[row][col] != ' ':
+            print 'Invalid move. A player has already marked that spot'
+        else:
+            self.rows[row][col] = self.turn
 
     def find_diff(self, next_board):
         return [(r, c)
                 for r in range(3) for c in range(3)
                 if next_board.rows[r][c] != self.rows[r][c]]
 
-my_board = Board()
-print my_board.diags
 
 def play_game(num_humans):
     if num_humans == 2:
@@ -73,6 +74,8 @@ def play_game(num_humans):
                 print "player " + turn + " has won!"
                 break
 if __name__ == '__main__':
+    my_board = Board()
+
     play_game(2)
 
     test_board = ['OXO',
