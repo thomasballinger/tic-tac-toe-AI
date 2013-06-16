@@ -1,13 +1,13 @@
 blank_board = [
-            ['_','_','_'], 
-            ['_','_','_'], 
-            [' ',' ',' '] 
+            ['_','_','_'],
+            ['_','_','_'],
+            [' ',' ',' ']
         ]
 
 other_board = [
-            ['O','X','O'], 
-            ['X','O','O'], 
-            ['X','O','X'] 
+            ['O','X','O'],
+            ['X','O','O'],
+            ['X','O','X']
         ]
 
 class Board:
@@ -20,8 +20,8 @@ class Board:
     def place_char (self, row, col):
         if self.grid[row][col] != '_' and self.grid[row][col] != ' ':
             print 'Invalid move. A player has already marked that spot'
-            return 
-        else: 
+            return
+        else:
             self.grid[row][col] = self.turn
             self.turn = 'X' if self.turns_left%2 == 0 else 'O'
             self.turns_left -= 1
@@ -31,9 +31,9 @@ class Board:
             row_string = ''
             if row == 2:
                 row_ground = ' '
-            else: 
+            else:
                 row_ground = '_'
-            for col in range(3): 
+            for col in range(3):
                 if col == 2:
                     col_close = row_ground
                 else:

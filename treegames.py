@@ -8,7 +8,7 @@ import terminal
 # def player_O(board):
 # 	if board.check_victory():
 # 		return board
-# 	else: 
+# 	else:
 # 		unplayed_spots = board.unplayed_spots()
 # 		player_O(board)
 # 	return [board]
@@ -47,7 +47,7 @@ def calc_util(end_states, player):
 			pass
 		elif result == player:
 			util += 1
-		else: 
+		else:
 			util -= 1
 	return util
 
@@ -71,9 +71,9 @@ def best_move_helper(pairs):
 
 
 other_board = [
-            ['O','X','O'], 
-            ['X','O','O'], 
-            ['X','O','X'] 
+            ['O','X','O'],
+            ['X','O','O'],
+            ['X','O','X']
            ]
 
 start_board = terminal.Board(other_board)
