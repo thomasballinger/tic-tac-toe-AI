@@ -15,7 +15,7 @@ class Board:
             self.grid[row][col] = self.turn
     turns_left = property(lambda self: len(self.unplayed_spots))
     turn = property(lambda self: 'X' if self.turns_left % 2 == 1 else 'O')
-    def print_board(self):
+    def __str__(self):
         template = (
                 '     |     |     \n'
                 '  {}  |  {}  |  {}  \n'
@@ -68,11 +68,11 @@ def play_game(num_humans):
     if num_humans == 2:
         while (True):
             turn = my_board.turn
-            my_board.print_board()
+            print my_board
             input_var = input(turn + " Enter [row, col]: ")
             my_board.place_char(input_var[0],input_var[1])
             if my_board.check_victory():
-                my_board.print_board()
+                print my_board
                 print "player " + turn + " has won!"
                 break
 if __name__ == '__main__':
