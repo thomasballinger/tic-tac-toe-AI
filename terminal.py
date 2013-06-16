@@ -84,7 +84,7 @@ class Board:
         return unplayed_spots
 
     def find_diff(self, next_board):
-        next_grid = [list(row) for row in next_board.grid]
+        next_grid = next_board.grid
         for row in range(3):
             for col in range(3):
                 if next_grid[row][col] != self.grid[row][col]:
