@@ -19,7 +19,7 @@ class Board:
         self.turns_left = len(self.unplayed_spots)
         self.turn = 'X' if self.turns_left % 2 == 1 else 'O'
     def place_char(self, row, col):
-        if self.grid[row][col] != '_' and self.grid[row][col] != ' ':
+        if self.grid[row][col] not in ['_', ' ']:
             print 'Invalid move. A player has already marked that spot'
         else:
             self.grid[row][col] = self.turn
@@ -27,68 +27,52 @@ class Board:
             self.turns_left -= 1
     def print_board(self):
         upper = '   |   |   \n'
-        for row in range(3):
+        for i, row in enumerate(self.grid):
             row_string = ''
-            if row == 2:
+            if i == 2:
                 row_ground = ' '
             else:
                 row_ground = '_'
-            for col in range(3):
-                if col == 2:
+            for j, char in enumerate(row):
+                if j == 2:
                     col_close = row_ground
                 else:
                     col_close = row_ground + "|"
-                patch = row_ground + self.grid[row][col] + col_close
+                patch = row_ground + char + col_close
                 row_string += patch
             print upper + row_string
         print '\n'
     def check_victory(self):
         # check for 3 in a single row
-        for row in self.grid:
-            if self.all_same(row):
-                return True
-        for col in range(3):
-            if self.all_same(self.get_column(col)):
-                return True
+        if any(self.all_same(row) for row in self.grid):
+            return True
+        if any(self.all_same(self.get_column(col)) for col in range(3)):
+            return True
         diags = self.get_diags()
         if self.all_same(diags[0]) or self.all_same(diags[1]):
             return True
         return False
     def get_column(self, number):
-        col = []
-        for row in self.grid:
-            col.append(row[number])
-        return col
+        return [row[number] for row in self.grid]
     def get_diags(self):
-        diag1 = []
-        diag2 = []
-        for ind in range(3):
-            diag1.append(self.grid[ind][ind])
-            diag2.append(self.grid[2-ind][ind])
-        return (diag1,diag2)
+        return zip([(row[i], row[2-i]) for i, row in enumerate(self.grid)])
     def all_same(self, items):
-        if items[0] == '_' or items[0] == ' ':
+        if items[0] in ['_', ' ']:
             return False
         return all(x==items[0] for x in items)
     def valid_character(self, char):
-        return (char == 'O' or char == 'X')
+        return char in ['O', 'X']
 
     @property
     def unplayed_spots(self):
-        unplayed_spots = []
-        for row in range(3):
-            for col in range(3):
-                # is there a way to use list comprehension for this?
-                if not self.valid_character(self.grid[row][col]):
-                    unplayed_spots.append((row,col))
-        return unplayed_spots
+        return [(r, c)
+                for r in range(3) for c in range(3)
+                if self.valid_characters(self.grid[r][c])]
 
     def find_diff(self, next_board):
-        next_grid = next_board.grid
-        for row in range(3):
-            for col in range(3):
-                if next_grid[row][col] != self.grid[row][col]:
-                    return (row,col)
+        return [(r, c)
+                for r in range(3) for c in range(3)
+                if next_board.grid[r][c] != self.grid[r][c]]
 
 my_board = Board()
 
