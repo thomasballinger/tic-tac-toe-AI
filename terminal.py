@@ -5,14 +5,14 @@ BLANK_BOARD = ['   ',
 class Board:
     def __init__(self, grid=None):
         if grid is None:
-            self.grid = [list(row) for row in BLANK_BOARD]
+            self.rows = [list(row) for row in BLANK_BOARD]
         else:
-            self.grid = [list(row) for row in grid]
+            self.rows = [list(row) for row in grid]
     def place_char(self, row, col):
-        if self.grid[row][col] != ' ':
+        if self.rows[row][col] != ' ':
             print 'Invalid move. A player has already marked that spot'
         else:
-            self.grid[row][col] = self.turn
+            self.rows[row][col] = self.turn
     turns_left = property(lambda self: len(self.unplayed_spots))
     turn = property(lambda self: 'X' if self.turns_left % 2 == 1 else 'O')
     def __str__(self):
@@ -28,9 +28,9 @@ class Board:
                 '     |     |     \n'
                 '  {}  |  {}  |  {}  \n'
                 '     |     |     \n')
-        print template.format(*[c for row in self.grid for c in row])
+        return template.format(*[c for row in self.rows for c in row])
     def check_victory(self):
-        if any(self.all_same(row) for row in self.grid):
+        if any(self.all_same(row) for row in self.rows):
             return True
         if any(self.all_same(col) for col in self.columns):
             return True
@@ -39,10 +39,10 @@ class Board:
         return False
     @property
     def columns(self):
-        return zip(*self.grid)
+        return zip(*self.rows)
     @property
     def diags(self):
-        return zip(*[(row[i], row[2-i]) for i, row in enumerate(self.grid)])
+        return zip(*[(row[i], row[2-i]) for i, row in enumerate(self.rows)])
     def all_same(self, items):
         if items[0] == ' ':
             return False
@@ -54,12 +54,12 @@ class Board:
     def unplayed_spots(self):
         return [(r, c)
                 for r in range(3) for c in range(3)
-                if self.valid_character(self.grid[r][c])]
+                if self.valid_character(self.rows[r][c])]
 
     def find_diff(self, next_board):
         return [(r, c)
                 for r in range(3) for c in range(3)
-                if next_board.grid[r][c] != self.grid[r][c]]
+                if next_board.rows[r][c] != self.rows[r][c]]
 
 my_board = Board()
 print my_board.diags

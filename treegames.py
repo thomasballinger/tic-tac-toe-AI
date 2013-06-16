@@ -17,7 +17,7 @@ import terminal
 def possible_boards(current_board):
     unplayed_spots = current_board.unplayed_spots
     poss_boards = []
-    grid = [list(row) for row in current_board.grid]
+    grid = [list(row) for row in current_board.rows]
     for spot in unplayed_spots:
         new_board = terminal.Board(grid)
         new_board.place_char(spot[0],spot[1], new_board.turn)
