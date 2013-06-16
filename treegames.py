@@ -9,13 +9,13 @@ import terminal
 #     if board.check_victory():
 #         return board
 #     else:
-#         unplayed_spots = board.unplayed_spots()
+#         unplayed_spots = board.unplayed_spots
 #         player_O(board)
 #     return [board]
 
 
 def possible_boards(current_board):
-    unplayed_spots = current_board.unplayed_spots()
+    unplayed_spots = current_board.unplayed_spots
     poss_boards = []
     grid = [list(row) for row in current_board.grid]
     for spot in unplayed_spots:

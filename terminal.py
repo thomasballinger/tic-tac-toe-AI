@@ -16,7 +16,7 @@ class Board:
             self.grid = [list(row) for row in blank_board]
         else:
             self.grid = [list(row) for row in grid]
-        self.turns_left = len(self.unplayed_spots())
+        self.turns_left = len(self.unplayed_spots)
         self.turn = 'X' if self.turns_left % 2 == 1 else 'O'
     def place_char(self, row, col):
         if self.grid[row][col] != '_' and self.grid[row][col] != ' ':
@@ -73,6 +73,7 @@ class Board:
     def valid_character(self, char):
         return (char == 'O' or char == 'X')
 
+    @property
     def unplayed_spots(self):
         unplayed_spots = []
         for row in range(3):
