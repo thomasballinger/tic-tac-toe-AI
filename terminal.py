@@ -12,15 +12,13 @@ class Board:
             self.grid = [list(row) for row in blank_board]
         else:
             self.grid = [list(row) for row in grid]
-        self.turns_left = len(self.unplayed_spots)
-        self.turn = 'X' if self.turns_left % 2 == 1 else 'O'
     def place_char(self, row, col):
         if self.grid[row][col] != ' ':
             print 'Invalid move. A player has already marked that spot'
         else:
             self.grid[row][col] = self.turn
-            self.turn = 'X' if self.turns_left % 2 == 0 else 'O'
-            self.turns_left -= 1
+    turns_left = property(lambda self: len(self.unplayed_spots))
+    turn = property(lambda self: 'X' if self.turns_left % 2 == 1 else 'O')
     def print_board(self):
         template = (
                 '     |     |     \n'
