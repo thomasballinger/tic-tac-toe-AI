@@ -1,15 +1,11 @@
-blank_board = ['   ',
+BLANK_BOARD = ['   ',
                '   ',
                '   ']
-
-other_board = ['OXO',
-               'XOO',
-               'XOX']
 
 class Board:
     def __init__(self, grid=None):
         if grid is None:
-            self.grid = [list(row) for row in blank_board]
+            self.grid = [list(row) for row in BLANK_BOARD]
         else:
             self.grid = [list(row) for row in grid]
     def place_char(self, row, col):
@@ -81,4 +77,8 @@ def play_game(num_humans):
                 break
 if __name__ == '__main__':
     play_game(2)
+
+    test_board = ['OXO',
+                  'XOO',
+                  'XOX']
 
