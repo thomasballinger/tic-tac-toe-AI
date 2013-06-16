@@ -1,14 +1,10 @@
-blank_board = [
-            ['_','_','_'],
-            ['_','_','_'],
-            [' ',' ',' ']
-        ]
+blank_board = [['_','_','_'],
+               ['_','_','_'],
+               [' ',' ',' ']]
 
-other_board = [
-            ['O','X','O'],
-            ['X','O','O'],
-            ['X','O','X']
-        ]
+other_board = [['O','X','O'],
+               ['X','O','O'],
+               ['X','O','X']]
 
 class Board:
     def __init__(self, grid=None):
