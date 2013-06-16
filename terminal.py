@@ -15,21 +15,26 @@ class Board:
         self.turns_left = len(self.unplayed_spots)
         self.turn = 'X' if self.turns_left % 2 == 1 else 'O'
     def place_char(self, row, col):
-        if self.grid[row][col] not in ['_', ' ']:
+        if self.grid[row][col] != ' ':
             print 'Invalid move. A player has already marked that spot'
         else:
             self.grid[row][col] = self.turn
             self.turn = 'X' if self.turns_left % 2 == 0 else 'O'
             self.turns_left -= 1
     def print_board(self):
-        upper = '   |   |   \n'
-        for i, row in enumerate(self.grid):
-            row_ground = ' ' if i == 2 else '_'
-            row_string = (row_ground + (row_ground+'|'+row_ground).join(
-                          row_ground if c in [' ', '_'] else c for c in row) +
-                          row_ground)
-            print upper + row_string
-        print '\n'
+        template = (
+                '     |     |     \n'
+                '  {}  |  {}  |  {}  \n'
+                '     |     |     \n'
+                '-----------------\n'
+                '     |     |     \n'
+                '  {}  |  {}  |  {}  \n'
+                '     |     |     \n'
+                '-----------------\n'
+                '     |     |     \n'
+                '  {}  |  {}  |  {}  \n'
+                '     |     |     \n')
+        print template.format(*[c for row in self.grid for c in row])
     def check_victory(self):
         if any(self.all_same(row) for row in self.grid):
             return True
@@ -45,7 +50,7 @@ class Board:
     def diags(self):
         return zip(*[(row[i], row[2-i]) for i, row in enumerate(self.grid)])
     def all_same(self, items):
-        if items[0] in ['_', ' ']:
+        if items[0] == ' ':
             return False
         return all(x==items[0] for x in items)
     def valid_character(self, char):
