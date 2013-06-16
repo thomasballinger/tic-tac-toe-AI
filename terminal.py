@@ -3,6 +3,12 @@ import itertools
 BLANK_BOARD = ['   ',
                '   ',
                '   ']
+def valid_character(char):
+    return char in ['O', 'X']
+def all_same_nonspace(items):
+    if items[0] == ' ':
+        return False
+    return all(x==items[0] for x in items)
 
 class Board:
     def __init__(self, grid=None):
@@ -32,7 +38,7 @@ class Board:
                 '     |     |     \n')
         return template.format(*[c for row in self.rows for c in row])
     def check_victory(self):
-        return any(self.all_same(comb)
+        return any(all_same_nonspace(comb)
                 for comb in itertools.chain(self.rows, self.columns, self.diags))
     @property
     def columns(self):
@@ -40,18 +46,12 @@ class Board:
     @property
     def diags(self):
         return zip(*[(row[i], row[2-i]) for i, row in enumerate(self.rows)])
-    def all_same(self, items):
-        if items[0] == ' ':
-            return False
-        return all(x==items[0] for x in items)
-    def valid_character(self, char):
-        return char in ['O', 'X']
 
     @property
     def unplayed_spots(self):
         return [(r, c)
                 for r in range(3) for c in range(3)
-                if self.valid_character(self.rows[r][c])]
+                if valid_character(self.rows[r][c])]
 
     def find_diff(self, next_board):
         return [(r, c)
