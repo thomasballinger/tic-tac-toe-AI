@@ -39,19 +39,19 @@ class Board:
             print upper + row_string
         print '\n'
     def check_victory(self):
-        # check for 3 in a single row
         if any(self.all_same(row) for row in self.grid):
             return True
-        if any(self.all_same(self.get_column(col)) for col in range(3)):
+        if any(self.all_same(col) for col in self.columns):
             return True
-        diags = self.get_diags()
-        if self.all_same(diags[0]) or self.all_same(diags[1]):
+        if any(self.all_same(diag) for diag in self.diags):
             return True
         return False
-    def get_column(self, number):
-        return [row[number] for row in self.grid]
-    def get_diags(self):
-        return zip([(row[i], row[2-i]) for i, row in enumerate(self.grid)])
+    @property
+    def columns(self):
+        return zip(*self.grid)
+    @property
+    def diags(self):
+        return zip(*[(row[i], row[2-i]) for i, row in enumerate(self.grid)])
     def all_same(self, items):
         if items[0] in ['_', ' ']:
             return False
@@ -63,7 +63,7 @@ class Board:
     def unplayed_spots(self):
         return [(r, c)
                 for r in range(3) for c in range(3)
-                if self.valid_characters(self.grid[r][c])]
+                if self.valid_character(self.grid[r][c])]
 
     def find_diff(self, next_board):
         return [(r, c)
@@ -71,6 +71,7 @@ class Board:
                 if next_board.grid[r][c] != self.grid[r][c]]
 
 my_board = Board()
+print my_board.diags
 
 def play_game(num_humans):
     if num_humans == 2:
