@@ -1,3 +1,5 @@
+import itertools
+
 BLANK_BOARD = ['   ',
                '   ',
                '   ']
@@ -30,13 +32,8 @@ class Board:
                 '     |     |     \n')
         return template.format(*[c for row in self.rows for c in row])
     def check_victory(self):
-        if any(self.all_same(row) for row in self.rows):
-            return True
-        if any(self.all_same(col) for col in self.columns):
-            return True
-        if any(self.all_same(diag) for diag in self.diags):
-            return True
-        return False
+        return any(self.all_same(comb)
+                for comb in itertools.chain(self.rows, self.columns, self.diags))
     @property
     def columns(self):
         return zip(*self.rows)
